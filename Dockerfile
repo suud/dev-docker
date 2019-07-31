@@ -6,5 +6,5 @@ RUN apt -y install git
 
 # create mount dir
 RUN mkdir /mnt/host
-# use as entry point
-ENTRYPOINT ["/mnt/host"]
+# use as workdir
+WORKDIR /mnt/host
