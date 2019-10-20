@@ -1,0 +1,7 @@
+app:
+  build: .
+  command: tail -f /dev/null # keep ubuntu running
+  volumes:
+    - .:/app
+#  ports:
+#    - 80:80
