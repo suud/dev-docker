@@ -1,10 +1,13 @@
-FROM ubuntu
+FROM ubuntu:latest
 
 # install packages
-RUN apt update && apt -y upgrade
-RUN apt -y install git python3 python3-pip
+RUN apt-get update
+RUN apt-get install -y git python3 python3-pip
 
-# create mount dir
-RUN mkdir /mnt/host
-# use as workdir
-WORKDIR /mnt/host
+WORKDIR /app
+
+# install dependencies in separate step, for better caching
+ADD requirements.txt .
+RUN pip3 install -r requirements.txt
+
+ADD . .
