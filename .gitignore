@@ -1,3 +1,6 @@
+## .ENV FILES
+.env*
+!.env.*.example
 ## VIM
 # Swap
 [._]*.s[a-v][a-z]
