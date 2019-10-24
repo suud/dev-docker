@@ -1,0 +1,5 @@
+app:
+  volumes:
+    - .:/app # mount source directory
+  #ports:
+    #- 8080:5000 # HOST:CONTAINER

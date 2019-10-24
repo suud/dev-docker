@@ -1,6 +1,12 @@
 # Workflow
+## Production
+Deploy the application:
+```
+docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+```
+
 ## Development
-- Deploy the application with `docker-compose up --build -d`.
+- Deploy the application with `docker-compose up -d --build`.
 - Do your changes in the project directory.
 - When installing packages inside the container, they should also be added to
 the service's `Dockerfile`.
@@ -9,9 +15,10 @@ are used during the build process (e.g. `requirements.txt`),
 `docker-compose build` needs to be executed to rebuild.
 - A temporary second instance of a service's container can be started and
 attached to with `docker-compose run --rm app bash`.
-
-## Production
-Deploy the application with `docker-compose up -d`.
+- Configurations that shall only be set for development go into
+`docker-compose.override.yml`. The production only configuration is set in
+`docker-compose.prod.yml`. The configuration from `docker-compose.yml` is
+loaded in both cases, but might be overwritten by the more specific files.
 
 # Command reference
 ## Start services
