@@ -1,12 +1,12 @@
 # [dev](https://github.com/suud/dev-docker)
-![](https://github.com/suud/dev-docker/workflows/Push%20images%20to%20Docker%20Hub/badge.svg)
+![](https://github.com/suud/dev-docker/workflows/Push%20to%20Docker%20Hub/badge.svg)
 
-This image was not made for use in production, because it contains a list of
+This container image is not made to be used in production. It contains some
 development tools that you might not want to have installed in a production
 environment.
 
-Though, you can quickly make things production-ready by replacing the parent
-image from which you are building (`FROM` in your Dockerfile).
+Though, you can just adopt the workflow but use a clean parent image
+(change the `FROM` in your Dockerfile).
 
 
 # Quickstart
