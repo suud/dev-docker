@@ -16,6 +16,8 @@ ENV LC_ALL en_US.UTF-8
 # update and install packages
 RUN apt-get update && apt-get install -qq \
     software-properties-common \
+    htop \
     curl \
+    vim \
     git \
     zsh
