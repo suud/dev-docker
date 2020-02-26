@@ -1,0 +1,115 @@
+name: Push images to Docker Hub
+
+on:
+  push:
+    paths-ignore:
+      - README.md
+    branches:
+      - master
+
+#  # Run tests for any PRs.
+#  pull_request:
+
+env:
+  REPO: 'suud/dev'
+
+jobs:
+#  # Run tests.
+#  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
+#  test:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#
+#      - name: Run tests
+#        run: |
+#          if [ -f docker-compose.test.yml ]; then
+#            docker-compose --file docker-compose.test.yml build
+#            docker-compose --file docker-compose.test.yml run sut
+#          else
+#            docker build . --file Dockerfile
+#          fi
+
+  push:
+#    # Ensure test job passes before pushing image.
+#    needs: test
+
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Set up Python 3'
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3'
+      - name: Push image
+        run: |
+          import os
+          import json
+          from datetime import datetime
+          from subprocess import check_output, STDOUT, CalledProcessError
+
+          REPO_NAME = os.environ['REPO']
+          USERNAME = os.environ['DOCKER_HUB_USERNAME']
+          TOKEN = os.environ['DOCKER_HUB_ACCESS_TOKEN']
+
+          with open('tags.json') as f:
+              tag_dict = json.load(f)
+
+          # log into docker hub
+          try:
+              print(check_output(
+                  'docker login -u {} -p{}'
+                  .format(USERNAME, TOKEN),
+                  stderr=STDOUT, shell=True, universal_newlines=True
+              ))
+          except CalledProcessError as e:
+              print(e.output)
+              raise e
+
+          # build and push all images from tags.json
+          for image,image_dict in tag_dict.items():
+              prefix = REPO_NAME + ':' + image_dict['name']
+              tag_list_list = image_dict['tags']
+              tag_list_list.append(['latest'])
+              for tag_list in tag_list_list:
+                  # build list of tages
+                  tag_list_prefixed = list()
+                  # prefix tags
+                  for tag in tag_list:
+                      if tag[0].isdigit():
+                          tag_list_prefixed.append(prefix + tag)
+                      else:
+                          tag_list_prefixed.append(prefix + '-' + tag)
+                  # tag debian:latest as latest
+                  if image == 'debian' and tag_list[0] == 'latest':
+                      tag_list_prefixed.append(REPO_NAME + ':' + 'latest')
+                  today = datetime.now().strftime('%Y-%m-%d')
+                  # add tags containing build date
+                  tag_list_prefixed.extend(
+                      [tag+'-'+today for tag in tag_list_prefixed]
+                  )
+                  # build
+                  print(check_output(
+                      'docker build --build-arg IMAGE={} --build-arg TAG={} -t {} .'
+                      .format(image,tag_list[0], ' -t '.join(tag_list_prefixed)),
+                      stderr=STDOUT, shell=True, universal_newlines=True
+                  ))
+                  for tag in tag_list_prefixed:
+                      # push
+                      print(check_output(
+                          'docker push {}'.format(tag), stderr=STDOUT,
+                          shell=True, universal_newlines=True
+                      ))
+        shell: python
+        env:
+          DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Add Description to Docker Hub
+        uses: peter-evans/dockerhub-description@v2.1.0
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          DOCKERHUB_REPOSITORY: ${{ env.REPO }}
