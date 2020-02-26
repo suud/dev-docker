@@ -1,4 +1,4 @@
-# dev
+# [dev](https://github.com/suud/dev-docker)
 ![](https://github.com/suud/dev-docker/workflows/Push%20images%20to%20Docker%20Hub/badge.svg)
 
 This image was not made for use in production, because it contains a list of
@@ -167,4 +167,5 @@ docker rmi $(docker images) -f
 
 # License
 
-This repository is released under the [MIT License](https://opensource.org/licenses/MIT).
+This repository is released under the
+[MIT License](https://opensource.org/licenses/MIT).
