@@ -21,3 +21,5 @@ RUN apt-get update && apt-get install -qq \
     vim \
     git \
     zsh
+
+COPY .zshrc /root/
