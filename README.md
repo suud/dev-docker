@@ -100,7 +100,7 @@ attached to with `docker-compose run --rm app zsh`.
 
 
 # Useful Commands
-You might prefer the [official cheat-sheet](https://www.docker.com/sites/default/files/d8/2019-09/docker-cheat-sheet.pdf) or 
+You might prefer the [official cheat-sheet](https://www.docker.com/sites/default/files/d8/2019-09/docker-cheat-sheet.pdf) or [this repository](https://dockerlabs.collabnix.com/docker/cheatsheet/).
 
 ## Start services
 Build, (re)create and start containers for all services from docker-compose.yml
