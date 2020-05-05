@@ -1,6 +1,12 @@
 # [dev](https://github.com/suud/dev-docker)
 ![](https://github.com/suud/dev-docker/workflows/Push%20to%20Docker%20Hub/badge.svg)
 
+This repository serves me a variety of purposes:
+1. __Docker image__ for rapidly spinning up a container with some packages installed for convenience. I mainly use that to try out some fancy stuff I've seen on the internet. I can give it a quick try without messing up my whole computer.
+2. __Boilerplate code__ for dockerized projects. I often copy stuff from this readme when setting up a new project.
+3. __Documentation__ of a robust development workflow.
+
+
 This container image is not made to be used in production. It contains some
 development tools that you might not want to have installed in a production
 environment.
@@ -94,6 +100,8 @@ attached to with `docker-compose run --rm app zsh`.
 
 
 # Useful Commands
+You might prefer the [official cheat-sheet](https://www.docker.com/sites/default/files/d8/2019-09/docker-cheat-sheet.pdf) or 
+
 ## Start services
 Build, (re)create and start containers for all services from docker-compose.yml
 (without attaching to them)
