@@ -14,7 +14,7 @@ Though, you can just adopt the workflow but use a clean parent image
 For simple tests, you can simply spin up and attach to a container that has the
 current working directory mounted and will be removed on exit:
 ```sh
-docker run -it --rm -v "$(pwd)":/usr/src/app -w /usr/src/app suud/dev:latest zsh
+docker run -it --rm -v "$(pwd)":/app -w /app suud/dev zsh
 ```
 
 
@@ -34,7 +34,7 @@ FROM suud/dev:latest
 #    tmux \
 #    wget
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 #COPY requirements.txt ./
 #RUN pip install --no-cache-dir -r requirements.txt
@@ -62,7 +62,7 @@ app:
 app:
   volumes:
     # mount source directory
-    - .:/usr/src/app
+    - .:/app
 #  ports:
 #    # HOST:CONTAINER#
 #    - 8080:8000
