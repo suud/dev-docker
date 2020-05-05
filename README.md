@@ -6,7 +6,7 @@ development tools that you might not want to have installed in a production
 environment.
 
 Though, you can just adopt the workflow but use a clean parent image
-(change the `FROM` in your Dockerfile).
+(change the `FROM` part of your Dockerfile).
 
 
 # Quickstart
